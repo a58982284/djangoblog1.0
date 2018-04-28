@@ -6,6 +6,7 @@ from comments.forms import CommentForm
 from.models import Post, Category
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+#from blog.models import Tag
 # Create your views here.
 
 class IndexView(ListView):
@@ -164,11 +165,14 @@ def detail(request,pk):
     post = get_object_or_404(Post,pk=pk)
     #阅读量+1
     post.increase_views()
+
     post.body = markdown.markdown(post.body,
                                   extensions=['markdown.extensions.extra',
                                              'markdown.extensions.codehilite',
                                              'markdown.extensions.toc',
-                                  ])
+                              ])
+    #post.toc =post.body.toc
+
 
     form = CommentForm()
     comment_list = post.comment_set.all()
@@ -177,7 +181,7 @@ def detail(request,pk):
              'comment_list':comment_list}
     return render(request,'blog/detail.html',context=context)
 
-class ArchivesView(ListView):
+class ArchivesView(IndexView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
@@ -195,7 +199,7 @@ def archives(request,year,month):
                                     created_time__month=month).order_by('-created_time')
     return render(request,'blog/index.html',context={'post_list':post_list})
 '''
-'''
+
 class CategoryView(IndexView):
 
     def get_queryset(self):
@@ -206,3 +210,14 @@ def category(requset, pk):
     cate = get_object_or_404(Category,pk=pk)
     post_list = Post.objects.filter(category=cate).order_by('-created_time')
     return render(requset,'blog/index.html',context={'post_list':post_list})
+'''
+'''
+class TagView(ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+
+    def get_queryset(self):
+        cate = get_object_or_404(Category,pk=self.kwargs.get('pk'))
+        return super(TagView,self).get_queryset().filter(tags=tag)
+'''
