@@ -221,3 +221,14 @@ class TagView(ListView):
         cate = get_object_or_404(Category,pk=self.kwargs.get('pk'))
         return super(TagView,self).get_queryset().filter(tags=tag)
 '''
+
+
+def about(request):
+
+
+    return render(request, 'blog/about.html',)
+
+def contact(request):
+
+
+    return render(request, 'blog/contact.html',)

@@ -25,7 +25,7 @@ SECRET_KEY = '9s2sr*e2-otteeew7&ryg+)29t4ve_&cgngla7wtl-yoe874il'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','45.32.5.71']
 
 
 # Application definition
@@ -121,6 +121,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 HAYSTACK_CONNECTIONS = {
     'default': {
